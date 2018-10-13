@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BotArena", "BotArena\BotArena.fsproj", "{3783515D-BC7E-4305-B6F5-0937694EBF66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotArena.CSharp", "BotArena.CSharp\BotArena.CSharp.csproj", "{58903F46-76DA-4E8C-B200-3AB232E7C516}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3783515D-BC7E-4305-B6F5-0937694EBF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3783515D-BC7E-4305-B6F5-0937694EBF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3783515D-BC7E-4305-B6F5-0937694EBF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3783515D-BC7E-4305-B6F5-0937694EBF66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58903F46-76DA-4E8C-B200-3AB232E7C516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58903F46-76DA-4E8C-B200-3AB232E7C516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58903F46-76DA-4E8C-B200-3AB232E7C516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58903F46-76DA-4E8C-B200-3AB232E7C516}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
