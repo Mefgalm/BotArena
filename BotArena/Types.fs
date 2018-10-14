@@ -12,26 +12,33 @@ type MatchBot =
       fields : Field list }
 
 type MatchResult =
-    { firstBot : MatchBot
-      secondBot : MatchBot
+    { offenseBot : MatchBot
+      defenceBot : MatchBot
       winnerBotId : string }
 
 type Bot =
     { id : string
       name : string
-      invoke : int -> int -> MatchResult list -> Field list }
+      invoke : string -> int -> int -> MatchResult list -> Field list }
 
 type Match =
-    { firstBot : Bot
-      secondBot : Bot }
+    { offenseBot : Bot
+      defenceBot : Bot }
+      
+type MatchWithResults = 
+   { matches: Match list
+     results: MatchResult list }
+
+type BotInit =
+    { bot: Bot
+      marchResults: MatchResult list }
 
 type BlottoGame =
     { fieldCount : int
       tankCount : int
-      matches : Match list
-      bots : Bot list
-      results : MatchResult list }
+      matches : MatchWithResults list
+      completedMatches : MatchWithResults list
+      processingMatch : MatchWithResults 
+      bots : Bot list }
       
-type BotInit =
-    { bot: Bot
-      marchResults: MatchResult list }
+

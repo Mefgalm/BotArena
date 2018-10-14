@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using BotArena.CSharp.Attributes;
 using BotArena.CSharp.Interfaces;
 using BotArena.CSharp.Types;
@@ -12,11 +15,10 @@ namespace BotArena.CSharp
         }
         
         [BotName("FirstBot")]
-        public IEnumerable<CField> Invoke(int fieldCount, int tankCount, IEnumerable<CMatchResult> matchResults)
+        public IEnumerable<CField> Invoke(string yourBotId, int fieldCount, int tankCount, IEnumerable<CMatchResult> matchResults)
         {
-            yield return new CField(0, 10);
-            yield return new CField(1, 20);
-            yield return new CField(2, 30);
+            int botCountPerField = tankCount / fieldCount;
+            return Enumerable.Range(0, fieldCount).Select(x => new CField(x, botCountPerField));
         }
     }
 
@@ -27,11 +29,26 @@ namespace BotArena.CSharp
         }
         
         [BotName("SecondBot")]
-        public IEnumerable<CField> Invoke(int fieldCount, int tankCount, IEnumerable<CMatchResult> matchResults)
+        public IEnumerable<CField> Invoke(string yourBotId, int fieldCount, int tankCount, IEnumerable<CMatchResult> matchResults)
         {
             yield return new CField(0, 30);
             yield return new CField(1, 20);
             yield return new CField(2, 10);
+        }
+    }
+    
+    public class BlottoMethod3 : IBlottoMethod
+    {
+        public BlottoMethod3()
+        {            
+        }
+        
+        [BotName("ThirdBot")]
+        public IEnumerable<CField> Invoke(string yourBotId, int fieldCount, int tankCount, IEnumerable<CMatchResult> matchResults)
+        {
+            yield return new CField(0, 20);
+            yield return new CField(1, 20);
+            yield return new CField(2, 0);
         }
     }
 }

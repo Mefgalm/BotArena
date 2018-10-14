@@ -2,8 +2,8 @@
 {
     public class CMatchResult
     {
-        public CMatchBot FirstBot { get; set; }
-        public CMatchBot SecondBot { get; set; }
+        public CMatchBot OffenceBot { get; set; }
+        public CMatchBot DefenceBot { get; set; }
         public string Winner { get; set; }
     }
 }
