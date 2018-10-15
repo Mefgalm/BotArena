@@ -16,6 +16,7 @@ open BotArena.CSharp.Attributes
 open BotArena.CSharp.Interfaces
 open BotArena.BlottoView
 open BotArena
+open Newtonsoft.Json
 
 let cfField (field : CField) =
     { position = field.Position
@@ -67,18 +68,16 @@ let rec shuffle list =
         }
 
 let initBlottoGame fieldCount tankCount bots =
-    let matches =
+    let matches = 
         bots
-        |> List.map (fun x -> 
-               bots
-               |> List.filter (fun y -> y.id <> x.id)
-               |> List.map (fun z -> (x, z)))
-        |> List.collect (fun x -> x)
-        |> List.map (fun (f, s) -> 
-               { offenseBot = f
-                 defenceBot = s})
         |> shuffle
         |> List.ofSeq
+        |> List.map(fun x -> x 
+                            |> List.map(fun y -> x 
+                                                |> List.filter(fun p -> p.id <> y.id) 
+                                                |> List.map(fun z -> (y, z))) 
+                            |> List.collect(fun y -> y))
+        |> List.map(fun x -> x |> List.map(fun (f,s) -> { offenseBot = f; defenceBot = s}))
         |> List.map(fun x -> { matches = x; results = [] })
         
     { fieldCount = fieldCount
@@ -216,5 +215,8 @@ let main argv =
         blottoGame <- blottoGame |> iteration
     
     printfn "%s" (stringBlottoView blottoGame)
+        
+    
+    printfn "%s" (JsonConvert.SerializeObject(blottoGame, Formatting.Indented))
     
     0

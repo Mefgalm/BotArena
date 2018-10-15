@@ -1,5 +1,6 @@
 namespace BotArena.Types
 
+open Newtonsoft.Json
 open System
 open System.Collections.Generic
 
@@ -19,6 +20,7 @@ type MatchResult =
 type Bot =
     { id : string
       name : string
+      [<JsonIgnore>]
       invoke : string -> int -> int -> MatchResult list -> Field list }
 
 type Match =
