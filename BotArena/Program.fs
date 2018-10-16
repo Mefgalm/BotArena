@@ -16,6 +16,7 @@ open BotArena.CSharp.Attributes
 open BotArena.CSharp.Interfaces
 open BotArena.BlottoView
 open BotArena
+open System.IO
 open Newtonsoft.Json
 
 let cfField (field : CField) =
@@ -153,9 +154,11 @@ let calculateMatchResult firstBotInit secondBotInit fieldCount tankCount =
     
     { offenseBot =
           { botId = firstBotInit.bot.id
+            name = firstBotInit.bot.name
             fields = firstBotResult }
       defenceBot =
           { botId = secondBotInit.bot.id
+            name = secondBotInit.bot.name
             fields = secondBotResult }
       winnerBotId =
           fieldsResult
@@ -206,17 +209,66 @@ let iteration blottoGame =
             | ts -> { blottoGame with matches = newMatches
                                       completedMatches = blottoGame.completedMatches
                                       processingMatch = newProcessingMatch }
+ 
+type NewMatch = {
+    data: int 
+    result: int
+}
+
+type TaskRow = {
+    data: seq<NewMatch>
+}
+
+type TaskTask = {
+    rows : seq<TaskRow>
+}
+
+let processing taskRow =
+    async {
+        let newData = taskRow.data |> Seq.map(fun x -> { data = x.data; result = x.data })
+            
+        return { data = newData }                    
+    };
+
+let proc taskTask =
+    async {
+        let newRows = taskTask.rows
+                        |> Seq.map(processing)
+                        |> Async.Parallel
+                        |> Async.RunSynchronously
+        
+        return {rows = newRows}
+    }
             
 [<EntryPoint>]
 let main argv =
+    
+    let newMatch = seq {
+        yield {data = 1; result = 0}
+        yield {data = 2; result = 0}
+        yield {data = 3; result = 0}
+    }
+     
+    let newMatch2 = seq {
+        yield {data = 1; result = 0}
+        yield {data = 2; result = 0}
+        yield {data = 3; result = 0}
+    }
+    
+    let taskRow = { data =  newMatch}
+    let taskRow2 = { data =  newMatch2}
+    
+    let taskTask = { rows = seq { yield taskRow; yield  taskRow2}}
+
+    let test = proc taskTask |> Async.RunSynchronously
+
     let mutable blottoGame = initBlottoGame 3 40 createBots
     
     while blottoGame.matches |> List.exists(fun x -> true) do 
         blottoGame <- blottoGame |> iteration
     
     printfn "%s" (stringBlottoView blottoGame)
-        
     
-    printfn "%s" (JsonConvert.SerializeObject(blottoGame, Formatting.Indented))
+    File.AppendAllText("Results.json", JsonConvert.SerializeObject(blottoGame, Formatting.Indented))
     
     0

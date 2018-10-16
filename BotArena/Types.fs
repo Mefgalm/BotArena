@@ -10,6 +10,7 @@ type Field =
 
 type MatchBot =
     { botId : string
+      name : string
       fields : Field list }
 
 type MatchResult =
